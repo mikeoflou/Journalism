@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life with CSF at IUS</title>
+    <style>
+        :root {
+            --csf-blue: #1A365D;
+            --csf-accent: #2B6CB0;
+            --bg-cream: #F7FAFC;
+            --dark-text: #2D3748;
+            --card-bg: #FFFFFF;
+        }
+
+        #advisor-app {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: var(--bg-cream);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: block; 
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: block;
+            text-align: center;
+            border-bottom: 3px solid var(--csf-blue);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            display: block;
+            color: var(--csf-blue);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        .disclaimer {
+            display: block;
+            font-size: 12px;
+            color: #718096;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .prompt-text {
+            display: block;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+        }
+
+        .button-section {
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .button-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .qa-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 2px solid #CBD5E0;
+            color: var(--dark-text);
+            padding: 14px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            text-align: left;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .qa-btn:hover {
+            border-color: var(--csf-accent);
+            background-color: #EDF2F7;
+        }
+
+        .qa-btn.active {
+            background-color: var(--csf-blue);
+            border-color: var(--csf-blue);
+            color: white;
+        }
+
+        .display-container {
+            display: none; 
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--csf-accent);
+            padding: 25px;
+            border-radius: 0 8px 8px 0;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        .display-question {
+            display: block;
+            font-weight: bold;
+            color: var(--csf-blue);
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .display-answer {
+            display: block;
+            line-height: 1.6;
+            color: var(--dark-text);
+            margin-bottom: 15px;
+            white-space: normal; 
+        }
+
+        .highlight-box {
+            display: block;
+            background-color: #EBF8FF;
+            border: 1px dashed #bee3f8;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .image-gallery img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #CBD5E0;
+        }
+
+        .image-caption {
+            font-size: 14px;
+            color: var(--dark-text);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+<img src="/images/CSFLeadingWorship.png" alt="CSF Leading Worship" style="display: block; margin: 30px auto; max-width: 500px; border-radius: 8px;">
+
+<div id="advisor-app">
+    <div class="header">
+        <h1>Community on Campus: Inside IUS Christian Student Fellowship</h1>
+        <div class="disclaimer">Digital Media Journalism Feature • Q&A Interview with CSF Co-Leader</div>
+    </div>
+
+    <div class="prompt-text">Explore the interview: Click a topic below to discover what CSF does on and off campus:</div>
+
+    <div class="button-section">
+        <div class="button-grid">
+            <button class="qa-btn" onclick="showAnswer(0)">👥 What is CSF's Core Mission?</button>
+            <button class="qa-btn" onclick="showAnswer(1)">🏫 Weekly On-Campus Activities</button>
+            <button class="qa-btn" onclick="showAnswer(2)">🌍 Off-Campus Service Projects</button>
+            <button class="qa-btn" onclick="showAnswer(3)">🤝 How to Get Involved</button>
+        </div>
+    </div>
+
+    <div id="response-box" class="display-container">
+        <div id="res-question" class="display-question"></div>
+        <div id="res-image-container"></div>
+        <div id="res-answer" class="display-answer"></div>
+        <div id="res-tip" class="highlight-box"></div>
+    </div>
+</div>
+<script>
+    // Placeholder data customized for a student ministry context
+    const interviewData = [
+        {
+            question: "How would you describe the core mission and vibe of CSF here at IUS?",
+            answer: "Christian Student Fellowship is a ministry reaching out to college students. We welcome the involvement of students of any denomination as well as those who may not share our beliefs. Our main goal is to spread the good news about Jesus to the campus, investing time into discipling believers, and connecting our students with a local church. We are excited to see God's work on campus.Fellowship is all about learning about Christ and sharing Him with others. We strive together to get through life welcoming students at all levels of their Journey here at IUS.",
+            tip: "✨ <strong>Leader Note:</strong> You don't have to fit a certain mold to hang out with us. Community comes first."
+        },
+        {
+            question: "What do your weekly activities schedule look like?",
+            answer: "On campus, we host regular meetings and Bible studies right in the commons area and the SEIBA building. Anybody can walk up and join in as our events are open to everyone.",
+            images: [
+                {
+                    src:"images/WelcomeWeek.png",
+                    alt: "Welcome Week - Christian Student Fellowship",
+                    category: "fellowship",
+                    caption: "Welcome Week September 22,2026 - September 28,2026ßJoin us for fun, food, and fellowship!"
+                },
+                {
+                    src: "images/womensbiblestudy.png",
+                    alt: "Women's Bible Study - Christian Student Fellowship",
+                    category: "bible-study",
+                    caption: "Monday, September 14, 2026 at 6:30 PM – 7:30 PM EDT<br>SEIBA Building (Across from the IUS Baseball Field)"
+                },
+                {
+                    src: "images/lunchBibleStudy.png",
+                    alt: "Lunch Bible Study - Christian Student Fellowship",
+                    category: "bible-study",
+                    caption: "Tuesday, September 15, 2026 at 12:15 PM in the IUS Commons Area<br>Grab your lunch and join us for a quick study!"
+                },
+                {
+                    src: "images/CSFpreConnect.png",
+                    alt: "Pre-Connect - Christian Student Fellowship",
+                    category: "Fellowship",
+                    caption: "Thursday, September 17, 2026 at 6:15 PM"
+                },
+                {
+                    src: "images/CSFDinnerandConnect.png",
+                    alt: "Dinner and Connect - Christian Student Fellowship",
+                    category: "Fellowship",
+                    caption: "Thursday, September 17, 2026 at 7:00 PM SEIBA building (Behind the IUS Baseball Field)"
+                },
+                {
+                    src: "images/happeningAtCSF.png",
+                    alt: "Happenings at CSF - Christian Student Fellowship",
+                    category: "Fellowship",
+                    caption: "Check out all the fun we have at CSF"
+                }
+            ],
+            tip: "We welcome all walks of life from our campus to any of our events."
+        },
+        {
+            question: "What kind of service projects or events do you organize off-campus?",
+            answer: "Off-campus is where our community outreach really shines. We coordinate local service projects in the New Albany and Louisville area, ranging from volunteering at local food pantries to doing community cleanup days. We also organize weekend retreats and regional gatherings with other campus chapters.",
+            tip: "🌍 <strong>Impact:</strong> Off-campus events focus on taking the values discussed in meetings and putting them into real, practical action for the community."
+        },
+        {
+            question: "If a student wants to check out CSF for the first time, what's the best entry point?",
+            answer: "Just show up to any of our open events! You don't need an invite. We love meeting new people, and our leadership team makes a point to welcome newcomers so nobody feels out of place. You can also follow our social channels to see exactly when and where the next hangout is.",
+            tip: "💡 <strong>Next Step:</strong> Reaching out directly to a co-leader on campus is a great way to have a friendly face waiting for you when you show up."
+        }
+    ];
+
+    function showAnswer(index) {
+        const buttons = document.querySelectorAll('.qa-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        buttons[index].classList.add('active');
+
+        const data = interviewData[index];
+
+        document.getElementById('res-question').textContent = data.question;
+        document.getElementById('res-answer').innerHTML = data.answer;
+        
+        // Handle optional tip
+        const tipElement = document.getElementById('res-tip');
+        if (data.tip) {
+            tipElement.innerHTML = data.tip;
+            tipElement.style.display = 'block';
+        } else {
+            tipElement.style.display = 'none';
+        }
+
+        // Handle optional images and captions
+        const imageContainer = document.getElementById('res-image-container');
+        imageContainer.innerHTML = '';
+        if (data.images && data.images.length > 0) {
+            const gallery = document.createElement('div');
+            gallery.className = 'image-gallery';
+            
+            data.images.forEach(imgData => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'image-item';
+                
+                const img = document.createElement('img');
+                img.src = imgData.src;
+                img.alt = imgData.alt;
+                wrapper.appendChild(img);
+                
+                if (imgData.caption) {
+                    const captionEl = document.createElement('div');
+                    captionEl.className = 'image-caption';
+                    captionEl.innerHTML = imgData.caption;
+                    wrapper.appendChild(captionEl);
+                }
+                
+                gallery.appendChild(wrapper);
+            });
+
+            imageContainer.appendChild(gallery);
+        }
+
+        const responseBox = document.getElementById('response-box');
+        responseBox.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
